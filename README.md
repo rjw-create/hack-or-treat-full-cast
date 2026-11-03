@@ -102,13 +102,17 @@ report.**
 | `evals/` | Coverage, audio and credit reports | Proof |
 | `docs/` | The interface between the roles, and the [demo script](docs/2026-10-31-demo-script.md) | Core, Story |
 
-The submission text draft is [`2026-10-31-submission.md`](2026-10-31-submission.md).
+The submission text draft is [`docs/hackathon/2026-10-31-submission.md`](docs/hackathon/2026-10-31-submission.md).
 
 The three roles worked in parallel in separate git worktrees. Only Core calls ElevenLabs, so credit use
-stays in one place. See [`2026-10-31-ROLES.md`](2026-10-31-ROLES.md).
+stays in one place. See [`docs/hackathon/2026-10-31-ROLES.md`](docs/hackathon/2026-10-31-ROLES.md).
 
 ## Credits
 - **Story:** "The Monkey's Paw" by W. W. Jacobs (1863-1943), first published in 1902. Public domain.
   This adaptation abridges it.
 - **Voices, sound effects, ambience and the theme drone:** generated with ElevenLabs.
 - **Adaptation and code:** written with Claude Code.
+
+## License
+The code and the adaptation in this repo are licensed under the [Apache License 2.0](LICENSE).
+The original story is in the public domain.
