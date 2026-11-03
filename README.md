@@ -112,3 +112,7 @@ stays in one place. See [`2026-10-31-ROLES.md`](2026-10-31-ROLES.md).
   This adaptation abridges it.
 - **Voices, sound effects, ambience and the theme drone:** generated with ElevenLabs.
 - **Adaptation and code:** written with Claude Code.
+
+## License
+The code and the adaptation in this repo are licensed under the [Apache License 2.0](LICENSE).
+The original story is in the public domain.
