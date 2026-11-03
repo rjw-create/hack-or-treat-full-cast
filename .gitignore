@@ -6,3 +6,4 @@ cache/
 __pycache__/
 # Local stamp written by the verify hook after check.sh passes
 .claude/.verify-*
+CLAUDE.md
