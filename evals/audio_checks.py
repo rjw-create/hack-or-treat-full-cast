@@ -15,9 +15,9 @@ import sys
 import wave
 from pathlib import Path
 
-from core.config import output_dir
 from core.interface import load_json
 from evals.audio import loudness_lufs, measure
+from evals.folders import default_folder
 
 SILENT_STEM_DBFS = -60.0  # a whole stem this quiet is almost certainly a failed render
 FAR_FROM_MEDIAN_DB = 6.0  # wide enough for acted whispers and shouts, narrow enough to catch a stem at the wrong level
@@ -171,10 +171,15 @@ def is_sample(folder):
 
 def main(argv):
     parser = argparse.ArgumentParser(description="Audio checks on every stem (no API calls).")
-    parser.add_argument("folder", nargs="?", default=None, help="output folder (default: shared real output)")
+    parser.add_argument("folder", nargs="?", default=None, help="output folder (default: shared real output, else output/placeholder)")
     parser.add_argument("--out", help="also write the report to this file")
     args = parser.parse_args(argv)
-    folder = Path(args.folder) if args.folder else output_dir()
+    if args.folder:
+        folder = Path(args.folder)
+    else:
+        folder, _ = default_folder()
+        if folder is None:
+            return 1
 
     try:
         segments = load_json(folder / "segments.json")
