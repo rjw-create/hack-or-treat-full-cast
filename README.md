@@ -38,9 +38,12 @@ How the parts talk to each other is written down in [`docs/2026-10-31-interface.
 
 ## Run it (no credits needed)
 Needs Python 3.11 and FFmpeg (`winget install Gyan.FFmpeg` on Windows, then open a new terminal).
-These commands work in PowerShell and Git Bash, from the repo root.
+These commands work in PowerShell and Git Bash, from the repo root. They use only the Python standard
+library, so no `pip install` is needed (`requirements.txt` is for the real render).
 
-Make placeholder audio (tones stand in for voices, noise for sound effects):
+Make placeholder audio (tones stand in for voices, noise for sound effects). It uses a short sample
+script in `core/fixtures/sample` (8 lines, about 0:33), not the full drama; the full mix is at the
+**Listen** link above:
 ```
 python -m core.placeholders --out output/placeholder
 ```
@@ -78,7 +81,10 @@ and the estimated credits without spending any).
 - Finished length: **5:28** (328.4 s, from the mixer's `timeline.json`), 49 lines in 3 scenes.
 
 ## Checking the result
-All of these read local files only and spend no credits.
+All of these read local files only and spend no credits. The three `evals` commands read the real render
+in `../elevenlabs-shared/output` by default, which a fresh clone does not have; after the placeholder
+steps above, point them at `output/placeholder` instead (and add `--allow-sample` to `evals.credits`),
+for example `python -m evals.coverage output/placeholder`.
 
 | Command | What it checks |
 | --- | --- |
