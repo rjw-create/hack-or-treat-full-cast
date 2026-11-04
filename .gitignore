@@ -7,3 +7,5 @@ __pycache__/
 # Local stamp written by the verify hook after check.sh passes
 .claude/.verify-*
 CLAUDE.md
+# Local Claude Code permissions: kept on disk, not published.
+.claude/settings.json
