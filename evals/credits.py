@@ -6,16 +6,17 @@ Rows marked "sample": true are placeholder data. They are refused unless --allow
 then the report is stamped as sample data so it can't be mistaken for real spend.
 
 Usage: python -m evals.credits [output folder] [--budget-credits 10000] [--out report.md] [--allow-sample]
-The folder defaults to the shared real output folder (core.config.output_dir()).
+The folder defaults to the shared real output folder (core.config.output_dir()), or to output/placeholder
+when that is missing (see evals.folders); that fallback reads it as sample data, like --allow-sample.
 """
 import argparse
 import json
 import sys
 from pathlib import Path
 
-from core.config import output_dir
 from core.interface import load_json
 from evals.audio import duration_s
+from evals.folders import default_folder
 
 FEATURES = ("dialogue", "sfx", "music", "flat", "voice_design")
 DEFAULT_BUDGET_CREDITS = 10_000
@@ -175,12 +176,18 @@ def render(summary, folder, budget_credits, audio_s, audio_note, pricing=None):
 
 def main(argv):
     parser = argparse.ArgumentParser(description="Credit report from usage.jsonl (no API calls).")
-    parser.add_argument("folder", nargs="?", default=None, help="output folder (default: shared real output)")
+    parser.add_argument("folder", nargs="?", default=None, help="output folder (default: shared real output, else output/placeholder)")
     parser.add_argument("--budget-credits", type=int, default=DEFAULT_BUDGET_CREDITS)
     parser.add_argument("--out", help="also write the report to this file")
     parser.add_argument("--allow-sample", action="store_true", help="accept placeholder rows; report is stamped SAMPLE")
     args = parser.parse_args(argv)
-    folder = Path(args.folder) if args.folder else output_dir()
+    if args.folder:
+        folder = Path(args.folder)
+    else:
+        folder, is_placeholder = default_folder()
+        if folder is None:
+            return 1
+        args.allow_sample = args.allow_sample or is_placeholder  # placeholder rows are sample: true
 
     try:
         summary = summarise(load_usage(folder / "usage.jsonl"), allow_sample=args.allow_sample)

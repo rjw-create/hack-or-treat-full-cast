@@ -5,15 +5,16 @@ core.interface checks the same rule but reports one combined error; this names e
 repeated, unknown or out-of-order line, so a broken render is quick to trace.
 
 Usage: python -m evals.coverage [output folder]
-The folder defaults to the shared real output folder (core.config.output_dir()).
+The folder defaults to the shared real output folder (core.config.output_dir()), or to output/placeholder
+when that is missing (see evals.folders).
 """
 import argparse
 import sys
 from collections import Counter
 from pathlib import Path, PurePosixPath
 
-from core.config import output_dir
 from core.interface import load_json, script_lines
+from evals.folders import default_folder
 
 
 def check_lines(script, segments):
@@ -78,9 +79,14 @@ def check_stems(folder, segments):
 
 def main(argv):
     parser = argparse.ArgumentParser(description="Line and stem coverage check (no API calls).")
-    parser.add_argument("folder", nargs="?", default=None, help="output folder (default: shared real output)")
+    parser.add_argument("folder", nargs="?", default=None, help="output folder (default: shared real output, else output/placeholder)")
     args = parser.parse_args(argv)
-    folder = Path(args.folder) if args.folder else output_dir()
+    if args.folder:
+        folder = Path(args.folder)
+    else:
+        folder, _ = default_folder()
+        if folder is None:
+            return 1
 
     try:
         script = load_json(folder / "script.json")
