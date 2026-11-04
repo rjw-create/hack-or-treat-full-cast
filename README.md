@@ -82,9 +82,8 @@ and the estimated credits without spending any).
 
 ## Checking the result
 All of these read local files only and spend no credits. The three `evals` commands read the real render
-in `../elevenlabs-shared/output` by default, which a fresh clone does not have; after the placeholder
-steps above, point them at `output/placeholder` instead (and add `--allow-sample` to `evals.credits`),
-for example `python -m evals.coverage output/placeholder`.
+in `../elevenlabs-shared/output`; a fresh clone does not have it, so they read `output/placeholder` from
+the placeholder steps above instead and print a line saying so.
 
 | Command | What it checks |
 | --- | --- |
